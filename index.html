@@ -68,13 +68,13 @@ tr:hover td { background: #fafbff; }
 <body>
 
 <h1>Métricas Bank Transfer Pago Nube</h1>
-<p class="subtitle">Fuente: Bank transfer 1/7–30/7 · Tab "Bind 1/7 al 30/7" · 295.279 transacciones</p>
+<p class="subtitle">Fuente: Bank transfer 1/7–31/7 · Tab "Bind 1/7 al 30/7" · 304.115 transacciones</p>
 
 <div class="toolbar">
   <label>Desde</label>
   <input type="date" id="dateFrom" value="2026-07-22">
   <label>Hasta</label>
-  <input type="date" id="dateTo" value="2026-07-30">
+  <input type="date" id="dateTo" value="2026-07-31">
   <button class="btn" onclick="render()">Aplicar</button>
   <button class="btn-sm" onclick="setRange('all')">Todo julio</button>
   <button class="btn-sm" onclick="setRange('22')">22/7 en adelante</button>
@@ -115,7 +115,8 @@ const ALL_DATA = [
   ["2026-07-27",8846,378,5,0],
   ["2026-07-28",8516,329,2,0],
   ["2026-07-29",8281,292,2,0],
-  ["2026-07-30",7817,292,9,12]
+  ["2026-07-30",7817,292,9,12],
+  ["2026-07-31",8530,295,10,1]
 ];
 
 const CATS = [
@@ -131,7 +132,7 @@ function fmtDate(s) { const p=s.split('-'); return `${p[2]}/${p[1]}`; }
 
 function setRange(r) {
   if (r === 'all') { document.getElementById('dateFrom').value='2026-07-01'; document.getElementById('dateTo').value='2026-07-30'; }
-  else { document.getElementById('dateFrom').value='2026-07-22'; document.getElementById('dateTo').value='2026-07-30'; }
+  else { document.getElementById('dateFrom').value='2026-07-22'; document.getElementById('dateTo').value='2026-07-31'; }
   render();
 }
 
