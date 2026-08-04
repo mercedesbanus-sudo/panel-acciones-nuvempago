@@ -238,7 +238,7 @@ function render() {
   const from = document.getElementById('dateFrom').value;
   const to   = document.getElementById('dateTo').value;
   const bindData = getFiltered(BIND_DATA);
-  const comercioData = getFiltered(COMERCIO_DATA);
+  const comercioData = COMERCIO_DATA;
   const grandBind = bindData.reduce((s,d)=>s+d[1]+d[2]+d[3]+d[4],0);
   document.getElementById('range-label').textContent =
     `${bindData.length} días (Bind) · ${fmt(grandBind)} transacciones` + (from||to ? ` · ${from ? fmtDate(from) : '…'} → ${to ? fmtDate(to) : '…'}` : '');
