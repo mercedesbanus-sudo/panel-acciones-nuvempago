@@ -87,7 +87,7 @@ tr:hover td { background: #fafbff; }
 <div style="border-top:2px solid #e2e8f0;margin:32px 0 20px"></div>
 
 <p style="font-size:13px;font-weight:700;color:#4361ee;margin-bottom:4px;letter-spacing:.3px">Comercio</p>
-<p class="subtitle">Fuente: Bank transfer 1/7–13/7 · Tab "Comercio - 1/7 al 13/7" · 4.488 transacciones</p>
+<p class="subtitle">Fuente: Bank transfer 1/7–13/7 · Tab "Comercio - 1/7 al 13/7" · 5.383 transacciones</p>
 <div id="panel-comercio"></div>
 
 <script>
@@ -127,13 +127,13 @@ const BIND_DATA = [
 ];
 
 const COMERCIO_DATA = [
-  ["2026-07-01",1366,0,0,0],
-  ["2026-07-02",1594,0,0,0],
-  ["2026-07-03",1143,0,0,0],
-  ["2026-07-06",367,0,0,0],
-  ["2026-07-07",5,0,0,0],
-  ["2026-07-08",3,0,0,0],
-  ["2026-07-13",10,0,0,0]
+  ["2026-07-01",1366,181,2,2],
+  ["2026-07-02",1594,144,2,5],
+  ["2026-07-03",1143,199,4,19],
+  ["2026-07-06",367,192,53,65],
+  ["2026-07-07",5,17,0,1],
+  ["2026-07-08",3,0,0,1],
+  ["2026-07-13",10,0,0,8]
 ];
 
 const CATS = [
@@ -159,7 +159,7 @@ function getFiltered(dataset) {
   return dataset.filter(d => (!from || d[0] >= from) && (!to || d[0] <= to));
 }
 
-function renderSection(data, containerId) {
+function renderSection(data, containerId, showTable=true) {
   const totals = [0,0,0,0];
   data.forEach(d => { totals[0]+=d[1]; totals[1]+=d[2]; totals[2]+=d[3]; totals[3]+=d[4]; });
   const grand = totals.reduce((a,b)=>a+b,0);
@@ -214,8 +214,7 @@ function renderSection(data, containerId) {
     </tr>`;
   }).join('');
 
-  document.getElementById(containerId).innerHTML = `
-    ${cardHTML}
+  const tableHTML = showTable ? `
     <div class="section-label">📋 Detalle por día</div>
     <div class="table-wrap">
       <table>
@@ -231,8 +230,9 @@ function renderSection(data, containerId) {
         </thead>
         <tbody>${tableRows}</tbody>
       </table>
-    </div>
-  `;
+    </div>` : '';
+
+  document.getElementById(containerId).innerHTML = `${cardHTML}${tableHTML}`;
 }
 
 function render() {
@@ -243,8 +243,8 @@ function render() {
   const grandBind = bindData.reduce((s,d)=>s+d[1]+d[2]+d[3]+d[4],0);
   document.getElementById('range-label').textContent =
     `${bindData.length} días (Bind) · ${fmt(grandBind)} transacciones` + (from||to ? ` · ${from ? fmtDate(from) : '…'} → ${to ? fmtDate(to) : '…'}` : '');
-  renderSection(bindData, 'panel-bind');
-  renderSection(comercioData, 'panel-comercio');
+  renderSection(bindData, 'panel-bind', true);
+  renderSection(comercioData, 'panel-comercio', false);
 }
 
 render();
