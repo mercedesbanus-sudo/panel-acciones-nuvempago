@@ -68,9 +68,6 @@ tr:hover td { background: #fafbff; }
 <body>
 
 <h1>Métricas Bank Transfer Pago Nube</h1>
-<p style="font-size:13px;font-weight:700;color:#4361ee;margin-bottom:4px;letter-spacing:.3px">Bind</p>
-<p class="subtitle">Fuente: Bank transfer 1/7–31/7 · Tab "Bind 1/7 al 30/7" · 304.115 transacciones</p>
-
 <div class="toolbar">
   <label>Desde</label>
   <input type="date" id="dateFrom" value="2026-07-22">
@@ -82,11 +79,19 @@ tr:hover td { background: #fafbff; }
   <span id="range-label"></span>
 </div>
 
-<div id="panel"></div>
+<p style="font-size:13px;font-weight:700;color:#4361ee;margin-bottom:4px;letter-spacing:.3px">Bind</p>
+<p class="subtitle">Fuente: Bank transfer 1/7–31/7 · Tab "Bind 1/7 al 31/7" · 304.115 transacciones</p>
+<div id="panel-bind"></div>
+
+<div style="border-top:2px solid #e2e8f0;margin:32px 0 20px"></div>
+
+<p style="font-size:13px;font-weight:700;color:#4361ee;margin-bottom:4px;letter-spacing:.3px">Comercio</p>
+<p class="subtitle">Fuente: Bank transfer 1/7–13/7 · Tab "Comercio - 1/7 al 13/7" · 4.488 transacciones</p>
+<div id="panel-comercio"></div>
 
 <script>
 // ── DATA: [date, auto_approved, auto_refund, manual_approved, manual_refund] ──
-const ALL_DATA = [
+const BIND_DATA = [
   ["2026-07-01",10079,8,133,83],
   ["2026-07-02",10009,141,101,106],
   ["2026-07-03",8571,381,74,51],
@@ -120,6 +125,16 @@ const ALL_DATA = [
   ["2026-07-31",8530,295,10,1]
 ];
 
+const COMERCIO_DATA = [
+  ["2026-07-01",1366,0,0,0],
+  ["2026-07-02",1594,0,0,0],
+  ["2026-07-03",1143,0,0,0],
+  ["2026-07-06",367,0,0,0],
+  ["2026-07-07",5,0,0,0],
+  ["2026-07-08",3,0,0,0],
+  ["2026-07-13",10,0,0,0]
+];
+
 const CATS = [
   { key: 0, label: 'Aprobación automática', short: 'Aprobación auto', cls: 'c1', cb: 'cb1', color: '#2563eb', badge: '⚡ Auto', group: 'auto' },
   { key: 1, label: 'Refund automático',     short: 'Refund auto',     cls: 'c2', cb: 'cb2', color: '#0ea5e9', badge: '⚡ Auto', group: 'auto' },
@@ -132,35 +147,29 @@ function pct(n, t) { return t ? (n/t*100).toFixed(2) : '0.00'; }
 function fmtDate(s) { const p=s.split('-'); return `${p[2]}/${p[1]}`; }
 
 function setRange(r) {
-  if (r === 'all') { document.getElementById('dateFrom').value='2026-07-01'; document.getElementById('dateTo').value='2026-07-30'; }
+  if (r === 'all') { document.getElementById('dateFrom').value='2026-07-01'; document.getElementById('dateTo').value='2026-07-31'; }
   else { document.getElementById('dateFrom').value='2026-07-22'; document.getElementById('dateTo').value='2026-07-31'; }
   render();
 }
 
-function getFiltered() {
+function getFiltered(dataset) {
   const from = document.getElementById('dateFrom').value;
   const to   = document.getElementById('dateTo').value;
-  return ALL_DATA.filter(d => (!from || d[0] >= from) && (!to || d[0] <= to));
+  return dataset.filter(d => (!from || d[0] >= from) && (!to || d[0] <= to));
 }
 
-function render() {
-  const data = getFiltered();
-  // Totals
+function renderSection(data, containerId) {
   const totals = [0,0,0,0];
   data.forEach(d => { totals[0]+=d[1]; totals[1]+=d[2]; totals[2]+=d[3]; totals[3]+=d[4]; });
   const grand = totals.reduce((a,b)=>a+b,0);
-
-  // Totals for auto/manual groups
   const autoTotal = totals[0]+totals[1];
   const manualTotal = totals[2]+totals[3];
 
-  // Range label
-  const from = document.getElementById('dateFrom').value;
-  const to = document.getElementById('dateTo').value;
-  document.getElementById('range-label').textContent =
-    `${data.length} días · ${fmt(grand)} transacciones` + (from||to ? ` · ${from ? fmtDate(from) : '…'} → ${to ? fmtDate(to) : '…'}` : '');
+  if (data.length === 0) {
+    document.getElementById(containerId).innerHTML = `<p style="color:#bbb;font-size:12px;padding:12px 0">Sin datos para el rango seleccionado.</p>`;
+    return;
+  }
 
-  // ── KPI CARDS ──
   const cardHTML = `
     <div class="group-header group-auto">⚡ Acción automática <span style="font-weight:400;color:#888;text-transform:none;font-size:11px">(${fmt(autoTotal)} · ${pct(autoTotal,grand)}% del total)</span></div>
     <div class="cards-row">
@@ -188,9 +197,6 @@ function render() {
     </div>
   `;
 
-  const stripHTML = '';
-
-  // ── DAILY TABLE ──
   const tableRows = data.map(d => {
     const [date,aa,ar,ma,mr] = d;
     const tot = aa+ar+ma+mr;
@@ -202,17 +208,13 @@ function render() {
     </td>`;
     return `<tr${isWeekend?' class="highlight-row"':''}>
       <td><strong>${fmtDate(date)}</strong>${isWeekend?' <span style="font-size:10px;color:#bbb">fds</span>':''}</td>
-      ${cell(aa,'cb1')}
-      ${cell(ar,'cb2')}
-      ${cell(ma,'cb3')}
-      ${cell(mr,'cb4')}
+      ${cell(aa,'cb1')}${cell(ar,'cb2')}${cell(ma,'cb3')}${cell(mr,'cb4')}
       <td style="color:#888;font-size:11px">${fmt(tot)}</td>
     </tr>`;
   }).join('');
 
-  document.getElementById('panel').innerHTML = `
+  document.getElementById(containerId).innerHTML = `
     ${cardHTML}
-    ${stripHTML}
     <div class="section-label">📋 Detalle por día</div>
     <div class="table-wrap">
       <table>
@@ -230,6 +232,18 @@ function render() {
       </table>
     </div>
   `;
+}
+
+function render() {
+  const from = document.getElementById('dateFrom').value;
+  const to   = document.getElementById('dateTo').value;
+  const bindData = getFiltered(BIND_DATA);
+  const comercioData = getFiltered(COMERCIO_DATA);
+  const grandBind = bindData.reduce((s,d)=>s+d[1]+d[2]+d[3]+d[4],0);
+  document.getElementById('range-label').textContent =
+    `${bindData.length} días (Bind) · ${fmt(grandBind)} transacciones` + (from||to ? ` · ${from ? fmtDate(from) : '…'} → ${to ? fmtDate(to) : '…'}` : '');
+  renderSection(bindData, 'panel-bind');
+  renderSection(comercioData, 'panel-comercio');
 }
 
 render();
