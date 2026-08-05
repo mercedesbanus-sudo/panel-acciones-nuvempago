@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MÃ©tricas Bank Transfer Pago Nube</title>
+<title>Métricas Bank Transfer Pago Nube</title>
 <style>
 :root { color-scheme: light; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -67,19 +67,18 @@ tr:hover td { background: #fafbff; }
 </head>
 <body>
 
-<h1>MÃ©tricas Bank Transfer Pago Nube</h1>
+<h1>Métricas Bank Transfer Pago Nube</h1>
 <p style="font-size:13px;font-weight:700;color:#4361ee;margin-bottom:4px;letter-spacing:.3px">Bind</p>
-<p class="subtitle">Fuente: Bank transfer 1/7â3/8 Â· Tab "Bind 1/7 al 31/7" Â· 331.813 transacciones</p>
+<p class="subtitle">Fuente: Bank transfer 1/7–3/8 · Tab "Bind 1/7 al 31/7" · 331.813 transacciones</p>
 
 <div class="toolbar">
   <label>Desde</label>
-  <input type="date" id="dateFrom" value="2026-07-01">
+  <input type="date" id="dateFrom" value="2026-07-22">
   <label>Hasta</label>
   <input type="date" id="dateTo" value="2026-08-03">
   <button class="btn" onclick="render()">Aplicar</button>
-  <button class="btn-sm" onclick="setRange('all')">Todo el perÃ­odo</button>
-  <button class="btn-sm" onclick="setRange('julio')">Solo julio</button>
-  <button class="btn-sm" onclick="setRange('agosto')">Solo agosto</button>
+  <button class="btn-sm" onclick="setRange('all')">Todo julio</button>
+  <button class="btn-sm" onclick="setRange('22')">22/7 en adelante</button>
   <span id="range-label"></span>
 </div>
 
@@ -88,11 +87,11 @@ tr:hover td { background: #fafbff; }
 <div style="border-top:2px solid #e2e8f0;margin:32px 0 20px"></div>
 
 <p style="font-size:13px;font-weight:700;color:#4361ee;margin-bottom:4px;letter-spacing:.3px">Comercio</p>
-<p class="subtitle">Fuente: Bank transfer 1/7â13/7 Â· Tab "Comercio - 1/7 al 13/7" Â· 5.383 transacciones</p>
+<p class="subtitle">Fuente: Bank transfer 1/7–13/7 · Tab "Comercio - 1/7 al 13/7" · 5.383 transacciones</p>
 <div id="panel-comercio"></div>
 
 <script>
-// ââ DATA: [date, auto_approved, auto_refund, manual_approved, manual_refund] ââ
+// ── DATA: [date, auto_approved, auto_refund, manual_approved, manual_refund] ──
 const BIND_DATA = [
   ["2026-07-01",10079,8,133,83],
   ["2026-07-02",10009,141,101,106],
@@ -141,10 +140,10 @@ const COMERCIO_DATA = [
 ];
 
 const CATS = [
-  { key: 0, label: 'AprobaciÃ³n automÃ¡tica', short: 'AprobaciÃ³n auto', cls: 'c1', cb: 'cb1', color: '#2563eb', badge: 'â¡ Auto', group: 'auto' },
-  { key: 1, label: 'Refund automÃ¡tico',     short: 'Refund auto',     cls: 'c2', cb: 'cb2', color: '#0ea5e9', badge: 'â¡ Auto', group: 'auto' },
-  { key: 2, label: 'AprobaciÃ³n manual',     short: 'AprobaciÃ³n man',  cls: 'c3', cb: 'cb3', color: '#f59e0b', badge: 'ð¤ Manual', group: 'manual' },
-  { key: 3, label: 'Refund manual',         short: 'Refund man',      cls: 'c4', cb: 'cb4', color: '#ef4444', badge: 'ð¤ Manual', group: 'manual' },
+  { key: 0, label: 'Aprobación automática', short: 'Aprobación auto', cls: 'c1', cb: 'cb1', color: '#2563eb', badge: '⚡ Auto', group: 'auto' },
+  { key: 1, label: 'Refund automático',     short: 'Refund auto',     cls: 'c2', cb: 'cb2', color: '#0ea5e9', badge: '⚡ Auto', group: 'auto' },
+  { key: 2, label: 'Aprobación manual',     short: 'Aprobación man',  cls: 'c3', cb: 'cb3', color: '#f59e0b', badge: '👤 Manual', group: 'manual' },
+  { key: 3, label: 'Refund manual',         short: 'Refund man',      cls: 'c4', cb: 'cb4', color: '#ef4444', badge: '👤 Manual', group: 'manual' },
 ];
 
 function fmt(n) { return n.toLocaleString('es-AR'); }
@@ -153,8 +152,7 @@ function fmtDate(s) { const p=s.split('-'); return `${p[2]}/${p[1]}`; }
 
 function setRange(r) {
   if (r === 'all') { document.getElementById('dateFrom').value='2026-07-01'; document.getElementById('dateTo').value='2026-08-03'; }
-  else if (r === 'julio') { document.getElementById('dateFrom').value='2026-07-01'; document.getElementById('dateTo').value='2026-07-31'; }
-  else if (r === 'agosto') { document.getElementById('dateFrom').value='2026-08-01'; document.getElementById('dateTo').value='2026-08-03'; }
+  else if (r === 'post22') { document.getElementById('dateFrom').value='2026-07-22'; document.getElementById('dateTo').value='2026-08-03'; }
   render();
 }
 
@@ -177,7 +175,7 @@ function renderSection(data, containerId, showTable=true) {
   }
 
   const cardHTML = `
-    <div class="group-header group-auto">â¡ AcciÃ³n automÃ¡tica <span style="font-weight:400;color:#888;text-transform:none;font-size:11px">(${fmt(autoTotal)} Â· ${pct(autoTotal,grand)}% del total)</span></div>
+    <div class="group-header group-auto">⚡ Acción automática <span style="font-weight:400;color:#888;text-transform:none;font-size:11px">(${fmt(autoTotal)} · ${pct(autoTotal,grand)}% del total)</span></div>
     <div class="cards-row">
       ${CATS.filter(c=>c.group==='auto').map(c => {
         const v = totals[c.key], p = pct(v, grand);
@@ -189,7 +187,7 @@ function renderSection(data, containerId, showTable=true) {
         </div>`;
       }).join('')}
     </div>
-    <div class="group-header group-manual" style="margin-top:14px">ð¤ AcciÃ³n manual <span style="font-weight:400;color:#888;text-transform:none;font-size:11px">(${fmt(manualTotal)} Â· ${pct(manualTotal,grand)}% del total)</span></div>
+    <div class="group-header group-manual" style="margin-top:14px">👤 Acción manual <span style="font-weight:400;color:#888;text-transform:none;font-size:11px">(${fmt(manualTotal)} · ${pct(manualTotal,grand)}% del total)</span></div>
     <div class="cards-row">
       ${CATS.filter(c=>c.group==='manual').map(c => {
         const v = totals[c.key], p = pct(v, grand);
@@ -220,16 +218,16 @@ function renderSection(data, containerId, showTable=true) {
   }).join('');
 
   const tableHTML = showTable ? `
-    <div class="section-label">ð Detalle por dÃ­a</div>
+    <div class="section-label">📋 Detalle por día</div>
     <div class="table-wrap">
       <table>
         <thead>
           <tr>
             <th>Fecha</th>
-            <th style="background:#eff6ff;color:#1d4ed8">â¡ AprobaciÃ³n automÃ¡tica</th>
-            <th style="background:#e0f2fe;color:#0369a1">â¡ Refund automÃ¡tico</th>
-            <th style="background:#fffbeb;color:#92400e">ð¤ AprobaciÃ³n manual</th>
-            <th style="background:#fff1f2;color:#991b1b">ð¤ Refund manual</th>
+            <th style="background:#eff6ff;color:#1d4ed8">⚡ Aprobación automática</th>
+            <th style="background:#e0f2fe;color:#0369a1">⚡ Refund automático</th>
+            <th style="background:#fffbeb;color:#92400e">👤 Aprobación manual</th>
+            <th style="background:#fff1f2;color:#991b1b">👤 Refund manual</th>
             <th>Total</th>
           </tr>
         </thead>
@@ -247,7 +245,7 @@ function render() {
   const comercioData = COMERCIO_DATA;
   const grandBind = bindData.reduce((s,d)=>s+d[1]+d[2]+d[3]+d[4],0);
   document.getElementById('range-label').textContent =
-    `${bindData.length} dÃ­as (Bind) Â· ${fmt(grandBind)} transacciones` + (from||to ? ` Â· ${from ? fmtDate(from) : 'â¦'} â ${to ? fmtDate(to) : 'â¦'}` : '');
+    `${bindData.length} días (Bind) · ${fmt(grandBind)} transacciones` + (from||to ? ` · ${from ? fmtDate(from) : '…'} → ${to ? fmtDate(to) : '…'}` : '');
   renderSection(bindData, 'panel-bind', true);
   renderSection(comercioData, 'panel-comercio', false);
 }
