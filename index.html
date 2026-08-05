@@ -1,1 +1,258 @@
-5£
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MÃ©tricas Bank Transfer Pago Nube</title>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f6fa; color: #1a1a2e; padding: 20px; font-size: 14px; }
+
+h1 { font-size: 18px; font-weight: 700; color: #0f3460; margin-bottom: 2px; }
+.subtitle { color: #888; font-size: 12px; margin-bottom: 16px; }
+
+.toolbar { display: flex; align-items: center; gap: 12px; background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px 16px; margin-bottom: 20px; flex-wrap: wrap; }
+.toolbar label { font-size: 12px; color: #555; font-weight: 600; }
+.toolbar input[type="date"] { border: 1px solid #d1d5db; border-radius: 6px; padding: 4px 8px; font-size: 12px; color: #333; }
+.btn { background: #4361ee; color: #fff; border: none; border-radius: 6px; padding: 5px 14px; font-size: 12px; cursor: pointer; font-weight: 600; }
+.btn:hover { background: #3451d1; }
+.btn-sm { background: #f1f3ff; color: #4361ee; border: 1px solid #c7d2fe; border-radius: 6px; padding: 4px 10px; font-size: 11px; cursor: pointer; font-weight: 600; }
+.btn-sm:hover { background: #e0e7ff; }
+#range-label { font-size: 11px; color: #888; margin-left: auto; }
+
+.section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: #999; margin-bottom: 8px; margin-top: 18px; }
+
+.cards-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 6px; }
+.card { background: #fff; border-radius: 10px; padding: 14px 16px; border: 1.5px solid #e2e8f0; }
+.card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.card-label { font-size: 11px; color: #999; font-weight: 600; }
+.card-badge { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 20px; }
+.card-pct { font-size: 30px; font-weight: 800; line-height: 1.1; margin-bottom: 2px; }
+.card-count { font-size: 11px; color: #bbb; margin-bottom: 8px; }
+.card-bar { height: 5px; border-radius: 3px; background: #f0f0f0; overflow: hidden; }
+.card-fill { height: 100%; border-radius: 3px; transition: width .6s ease; }
+
+.c1 { border-left: 4px solid #2563eb; } .c1 .card-pct { color:#2563eb; } .c1 .card-fill { background:#2563eb; } .c1 .card-badge { background:#dbeafe; color:#1d4ed8; }
+.c2 { border-left: 4px solid #0ea5e9; } .c2 .card-pct { color:#0ea5e9; } .c2 .card-fill { background:#0ea5e9; } .c2 .card-badge { background:#e0f2fe; color:#0369a1; }
+.c3 { border-left: 4px solid #f59e0b; } .c3 .card-pct { color:#f59e0b; } .c3 .card-fill { background:#f59e0b; } .c3 .card-badge { background:#fef3c7; color:#92400e; }
+.c4 { border-left: 4px solid #ef4444; } .c4 .card-pct { color:#ef4444; } .c4 .card-fill { background:#ef4444; } .c4 .card-badge { background:#fee2e2; color:#991b1b; }
+
+.group-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; padding: 6px 0 4px; }
+.group-auto { color: #2563eb; }
+.group-manual { color: #f59e0b; }
+
+.total-strip { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 14px; margin: 12px 0; font-size: 11px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 3px; }
+.total-pill { display: flex; align-items: center; font-weight: 600; color: #555; }
+.total-pill strong { color: #222; margin-left: 3px; }
+
+
+.table-wrap { background: #fff; border-radius: 10px; border: 1px solid #e2e8f0; overflow: hidden; margin-top: 10px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+thead tr:first-child { background: #f8faff; }
+thead tr:nth-child(2) { background: #fafbff; }
+th { padding: 8px 10px; text-align: left; font-weight: 700; color: #666; font-size: 11px; text-transform: uppercase; letter-spacing: .4px; border-bottom: 1px solid #e8ecf5; white-space: nowrap; }
+td { padding: 8px 10px; border-bottom: 1px solid #f0f3fa; color: #333; white-space: nowrap; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: #fafbff; }
+.pct { font-weight: 700; }
+.highlight-row td { background: #fffbeb !important; font-weight: 600; }
+
+.pct-bar { display: inline-flex; align-items: center; gap: 5px; }
+.mini-bar { width: 50px; height: 5px; background: #f0f0f0; border-radius: 3px; overflow: hidden; display: inline-block; vertical-align: middle; }
+.mini-fill { height: 100%; border-radius: 3px; }
+.cb1 { background: #2563eb; } .cb2 { background: #0ea5e9; } .cb3 { background: #f59e0b; } .cb4 { background: #ef4444; }
+</style>
+</head>
+<body>
+
+<h1>MÃ©tricas Bank Transfer Pago Nube</h1>
+<p style="font-size:13px;font-weight:700;color:#4361ee;margin-bottom:4px;letter-spacing:.3px">Bind</p>
+<p class="subtitle">Fuente: Bank transfer 1/7â3/8 Â· Tab "Bind 1/7 al 31/7" Â· 331.813 transacciones</p>
+
+<div class="toolbar">
+  <label>Desde</label>
+  <input type="date" id="dateFrom" value="2026-07-01">
+  <label>Hasta</label>
+  <input type="date" id="dateTo" value="2026-08-03">
+  <button class="btn" onclick="render()">Aplicar</button>
+  <button class="btn-sm" onclick="setRange('all')">Todo el perÃ­odo</button>
+  <button class="btn-sm" onclick="setRange('julio')">Solo julio</button>
+  <button class="btn-sm" onclick="setRange('agosto')">Solo agosto</button>
+  <span id="range-label"></span>
+</div>
+
+<div id="panel-bind"></div>
+
+<div style="border-top:2px solid #e2e8f0;margin:32px 0 20px"></div>
+
+<p style="font-size:13px;font-weight:700;color:#4361ee;margin-bottom:4px;letter-spacing:.3px">Comercio</p>
+<p class="subtitle">Fuente: Bank transfer 1/7â13/7 Â· Tab "Comercio - 1/7 al 13/7" Â· 5.383 transacciones</p>
+<div id="panel-comercio"></div>
+
+<script>
+// ââ DATA: [date, auto_approved, auto_refund, manual_approved, manual_refund] ââ
+const BIND_DATA = [
+  ["2026-07-01",10079,8,133,83],
+  ["2026-07-02",10009,141,101,106],
+  ["2026-07-03",8571,381,74,51],
+  ["2026-07-04",9825,507,86,38],
+  ["2026-07-05",10458,545,85,18],
+  ["2026-07-06",11565,676,89,88],
+  ["2026-07-07",10144,518,58,51],
+  ["2026-07-08",9311,531,0,56],
+  ["2026-07-09",8681,374,0,3],
+  ["2026-07-10",9077,499,0,26],
+  ["2026-07-11",7565,393,0,19],
+  ["2026-07-12",7649,375,0,5],
+  ["2026-07-13",10916,567,0,24],
+  ["2026-07-14",20434,702,0,390],
+  ["2026-07-15",14990,170,0,512],
+  ["2026-07-16",16236,116,0,678],
+  ["2026-07-17",8274,69,0,321],
+  ["2026-07-18",6985,118,0,202],
+  ["2026-07-19",5044,230,0,1],
+  ["2026-07-20",8060,469,0,28],
+  ["2026-07-21",8370,377,5,4],
+  ["2026-07-22",8718,312,16,4],
+  ["2026-07-23",8365,330,6,0],
+  ["2026-07-24",7418,281,7,1],
+  ["2026-07-25",5330,214,1,1],
+  ["2026-07-26",5946,203,1,0],
+  ["2026-07-27",8846,378,5,0],
+  ["2026-07-28",8516,329,2,0],
+  ["2026-07-29",8281,292,2,0],
+  ["2026-07-30",7817,292,9,12],
+  ["2026-07-31",8530,295,10,1],
+  ["2026-08-01",7363,265,6,0],
+  ["2026-08-02",8341,257,1,0],
+  ["2026-08-03",10999,453,13,0]
+];
+
+const COMERCIO_DATA = [
+  ["2026-07-01",1366,181,2,2],
+  ["2026-07-02",1594,144,2,5],
+  ["2026-07-03",1143,199,4,19],
+  ["2026-07-06",367,192,53,65],
+  ["2026-07-07",5,17,0,1],
+  ["2026-07-08",3,0,0,1],
+  ["2026-07-13",10,0,0,8]
+];
+
+const CATS = [
+  { key: 0, label: 'AprobaciÃ³n automÃ¡tica', short: 'AprobaciÃ³n auto', cls: 'c1', cb: 'cb1', color: '#2563eb', badge: 'â¡ Auto', group: 'auto' },
+  { key: 1, label: 'Refund automÃ¡tico',     short: 'Refund auto',     cls: 'c2', cb: 'cb2', color: '#0ea5e9', badge: 'â¡ Auto', group: 'auto' },
+  { key: 2, label: 'AprobaciÃ³n manual',     short: 'AprobaciÃ³n man',  cls: 'c3', cb: 'cb3', color: '#f59e0b', badge: 'ð¤ Manual', group: 'manual' },
+  { key: 3, label: 'Refund manual',         short: 'Refund man',      cls: 'c4', cb: 'cb4', color: '#ef4444', badge: 'ð¤ Manual', group: 'manual' },
+];
+
+function fmt(n) { return n.toLocaleString('es-AR'); }
+function pct(n, t) { return t ? (n/t*100).toFixed(2) : '0.00'; }
+function fmtDate(s) { const p=s.split('-'); return `${p[2]}/${p[1]}`; }
+
+function setRange(r) {
+  if (r === 'all') { document.getElementById('dateFrom').value='2026-07-01'; document.getElementById('dateTo').value='2026-08-03'; }
+  else if (r === 'julio') { document.getElementById('dateFrom').value='2026-07-01'; document.getElementById('dateTo').value='2026-07-31'; }
+  else if (r === 'agosto') { document.getElementById('dateFrom').value='2026-08-01'; document.getElementById('dateTo').value='2026-08-03'; }
+  render();
+}
+
+function getFiltered(dataset) {
+  const from = document.getElementById('dateFrom').value;
+  const to   = document.getElementById('dateTo').value;
+  return dataset.filter(d => (!from || d[0] >= from) && (!to || d[0] <= to));
+}
+
+function renderSection(data, containerId, showTable=true) {
+  const totals = [0,0,0,0];
+  data.forEach(d => { totals[0]+=d[1]; totals[1]+=d[2]; totals[2]+=d[3]; totals[3]+=d[4]; });
+  const grand = totals.reduce((a,b)=>a+b,0);
+  const autoTotal = totals[0]+totals[1];
+  const manualTotal = totals[2]+totals[3];
+
+  if (data.length === 0) {
+    document.getElementById(containerId).innerHTML = `<p style="color:#bbb;font-size:12px;padding:12px 0">Sin datos para el rango seleccionado.</p>`;
+    return;
+  }
+
+  const cardHTML = `
+    <div class="group-header group-auto">â¡ AcciÃ³n automÃ¡tica <span style="font-weight:400;color:#888;text-transform:none;font-size:11px">(${fmt(autoTotal)} Â· ${pct(autoTotal,grand)}% del total)</span></div>
+    <div class="cards-row">
+      ${CATS.filter(c=>c.group==='auto').map(c => {
+        const v = totals[c.key], p = pct(v, grand);
+        return `<div class="card ${c.cls}">
+          <div class="card-top"><span class="card-label">${c.label}</span><span class="card-badge">${c.badge}</span></div>
+          <div class="card-pct">${p}%</div>
+          <div class="card-count">${fmt(v)} de ${fmt(grand)}</div>
+          <div class="card-bar"><div class="card-fill" style="width:${Math.min(p,100)}%"></div></div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="group-header group-manual" style="margin-top:14px">ð¤ AcciÃ³n manual <span style="font-weight:400;color:#888;text-transform:none;font-size:11px">(${fmt(manualTotal)} Â· ${pct(manualTotal,grand)}% del total)</span></div>
+    <div class="cards-row">
+      ${CATS.filter(c=>c.group==='manual').map(c => {
+        const v = totals[c.key], p = pct(v, grand);
+        return `<div class="card ${c.cls}">
+          <div class="card-top"><span class="card-label">${c.label}</span><span class="card-badge">${c.badge}</span></div>
+          <div class="card-pct">${p}%</div>
+          <div class="card-count">${fmt(v)} de ${fmt(grand)}</div>
+          <div class="card-bar"><div class="card-fill" style="width:${Math.min(p*10,100)}%"></div></div>
+        </div>`;
+      }).join('')}
+    </div>
+  `;
+
+  const tableRows = data.map(d => {
+    const [date,aa,ar,ma,mr] = d;
+    const tot = aa+ar+ma+mr;
+    const isWeekend = [0,6].includes(new Date(date).getDay());
+    const cell = (v, cb) => `<td>
+      <div style="font-size:13px;font-weight:800;line-height:1.1">${pct(v,tot)}%</div>
+      <div class="pct-bar" style="margin-top:3px"><div class="mini-bar"><div class="mini-fill ${cb}" style="width:${Math.min(parseFloat(pct(v,tot)),100)}%"></div></div></div>
+      <div style="font-size:11px;color:#bbb;margin-top:2px">${fmt(v)}</div>
+    </td>`;
+    return `<tr${isWeekend?' class="highlight-row"':''}>
+      <td><strong>${fmtDate(date)}</strong>${isWeekend?' <span style="font-size:10px;color:#bbb">fds</span>':''}</td>
+      ${cell(aa,'cb1')}${cell(ar,'cb2')}${cell(ma,'cb3')}${cell(mr,'cb4')}
+      <td style="color:#888;font-size:11px">${fmt(tot)}</td>
+    </tr>`;
+  }).join('');
+
+  const tableHTML = showTable ? `
+    <div class="section-label">ð Detalle por dÃ­a</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th style="background:#eff6ff;color:#1d4ed8">â¡ AprobaciÃ³n automÃ¡tica</th>
+            <th style="background:#e0f2fe;color:#0369a1">â¡ Refund automÃ¡tico</th>
+            <th style="background:#fffbeb;color:#92400e">ð¤ AprobaciÃ³n manual</th>
+            <th style="background:#fff1f2;color:#991b1b">ð¤ Refund manual</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>${tableRows}</tbody>
+      </table>
+    </div>` : '';
+
+  document.getElementById(containerId).innerHTML = `${cardHTML}${tableHTML}`;
+}
+
+function render() {
+  const from = document.getElementById('dateFrom').value;
+  const to   = document.getElementById('dateTo').value;
+  const bindData = getFiltered(BIND_DATA);
+  const comercioData = COMERCIO_DATA;
+  const grandBind = bindData.reduce((s,d)=>s+d[1]+d[2]+d[3]+d[4],0);
+  document.getElementById('range-label').textContent =
+    `${bindData.length} dÃ­as (Bind) Â· ${fmt(grandBind)} transacciones` + (from||to ? ` Â· ${from ? fmtDate(from) : 'â¦'} â ${to ? fmtDate(to) : 'â¦'}` : '');
+  renderSection(bindData, 'panel-bind', true);
+  renderSection(comercioData, 'panel-comercio', false);
+}
+
+render();
+</script>
+</body>
+</html>
