@@ -69,13 +69,13 @@ tr:hover td { background: #fafbff; }
 
 <h1>Métricas Bank Transfer Pago Nube</h1>
 <p style="font-size:13px;font-weight:700;color:#4361ee;margin-bottom:4px;letter-spacing:.3px">Bind</p>
-<p class="subtitle">Fuente: Bank transfer 1/7–5/8 · Tab "Bind 1/7 al 31/7" · 353.352 transacciones</p>
+<p class="subtitle">Fuente: Bank transfer 1/7–6/8 · Tab "Bind 1/7 al 31/7" · 364.610 transacciones</p>
 
 <div class="toolbar">
   <label>Desde</label>
   <input type="date" id="dateFrom" value="2026-07-22">
   <label>Hasta</label>
-  <input type="date" id="dateTo" value="2026-08-05">
+  <input type="date" id="dateTo" value="2026-08-06">
   <button class="btn" onclick="render()">Aplicar</button>
   <button class="btn-sm" onclick="setRange('all')">Todo julio</button>
   <button class="btn-sm" onclick="setRange('22')">22/7 en adelante</button>
@@ -128,7 +128,8 @@ const BIND_DATA = [
       ["2026-08-02",8341,257,1,0],
       ["2026-08-03",10999,453,13,0],
       ["2026-08-04",10430,356,12,0],
-      ["2026-08-05",10307,417,16,1]
+      ["2026-08-05",10307,417,16,1],
+      ["2026-08-06",10820,407,27,4]
     ];
 
 const COMERCIO_DATA = [
@@ -153,8 +154,8 @@ function pct(n, t) { return t ? (n/t*100).toFixed(2) : '0.00'; }
 function fmtDate(s) { const p=s.split('-'); return `${p[2]}/${p[1]}`; }
 
 function setRange(r) {
-  if (r === 'all') { document.getElementById('dateFrom').value='2026-07-01'; document.getElementById('dateTo').value='2026-08-05'; }
-  else if (r === 'post22') { document.getElementById('dateFrom').value='2026-07-22'; document.getElementById('dateTo').value='2026-08-05'; }
+  if (r === 'all') { document.getElementById('dateFrom').value='2026-07-01'; document.getElementById('dateTo').value='2026-08-06'; }
+  else if (r === 'post22') { document.getElementById('dateFrom').value='2026-07-22'; document.getElementById('dateTo').value='2026-08-06'; }
   render();
 }
 
