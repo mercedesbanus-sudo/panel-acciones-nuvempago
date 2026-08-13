@@ -159,7 +159,11 @@ function pct(n, t) { return t ? (n/t*100).toFixed(2) : '0.00'; }
 function fmtDate(s) { const p=s.split('-'); return `${p[2]}/${p[1]}`; }
 
 function setRange(r) {
-  if (r === 'all') { document.getElementById('dateFrom').value='2026-07-01'; document.getElementById('dateTo').value='2026-08-11'; }
+  const lastDate = BIND_DATA[BIND_DATA.length-1][0];
+  if (r === 'all') { document.getElementById('dateFrom').value='2026-07-01'; document.getElementById('dateTo').value=lastDate; }
+  else if (r === '22') { document.getElementById('dateFrom').value='2026-07-22'; document.getElementById('dateTo').value=lastDate; }
+  render();
+}
   else if (r === 'post22') { document.getElementById('dateFrom').value='2026-07-22'; document.getElementById('dateTo').value='2026-08-11'; }
   render();
 }
