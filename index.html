@@ -277,7 +277,7 @@ function render() {
   document.getElementById('range-label').textContent =
     `${bindData.length} días (Bind) · ${fmt(grandBind)} transacciones` + (from||to ? ` · ${from ? fmtDate(from) : '…'} → ${to ? fmtDate(to) : '…'}` : '');
   renderSection(bindData, 'panel-bind', true);
-  renderSection(comercioData, 'panel-comercio', false);
+  renderSection(comercioData, 'panel-comercio', true);
 }
 
 render();
