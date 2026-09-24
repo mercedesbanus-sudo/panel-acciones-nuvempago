@@ -68,13 +68,13 @@ tr:hover td { background: #fafbff; }
 
 <h1>Métricas Bank Transfer Pago Nube</h1>
 <p style="font-size:13px;font-weight:700;color:#4361ee;margin-bottom:4px;letter-spacing:.3px">Bind</p>
-<p class="subtitle">Fuente: Bank transfer 1/7–16/9 · Tab "Bind 1/7 al 10/9" · 716.319 transacciones</p>
+<p class="subtitle">Fuente: Bank transfer 1/7–23/9 · Tab "Bind 1/7 al 10/9" · 767.850 transacciones</p>
 
 <div class="toolbar">
 <label>Desde</label>
 <input type="date" id="dateFrom" value="2026-07-22">
 <label>Hasta</label>
-<input type="date" id="dateTo" value="2026-09-16">
+<input type="date" id="dateTo" value="2026-09-23">
 <button class="btn" onclick="render()">Aplicar</button>
 <button class="btn-sm" onclick="setRange('all')">Todas las fechas</button>
 <button class="btn-sm" onclick="setRange('22')">22/7 en adelante</button>
@@ -86,7 +86,7 @@ tr:hover td { background: #fafbff; }
 <div style="border-top:2px solid #e2e8f0;margin:32px 0 20px"></div>
 
 <p style="font-size:13px;font-weight:700;color:#4361ee;margin-bottom:4px;letter-spacing:.3px">Comercio</p>
-<p class="subtitle">Fuente: Bank transfer 21/8–17/9 · Tab "Comercio 21/8 - 8/9" · 7.247 transacciones</p>
+<p class="subtitle">Fuente: Bank transfer 21/8–23/9 · Tab "Comercio 21/8 - 8/9" · 11.228 transacciones</p>
 <div id="panel-comercio"></div>
 
 <script>
@@ -169,7 +169,14 @@ const BIND_DATA = [
 ["2026-09-13",6527,200,1,0],
 ["2026-09-14",9223,306,57,1],
 ["2026-09-15",8666,310,6,0],
-["2026-09-16",8110,302,19,2]
+["2026-09-16",8110,302,19,2],
+["2026-09-17",7453,241,19,20],
+["2026-09-18",6835,260,26,1],
+["2026-09-19",5348,146,6,0],
+["2026-09-20",6145,196,2,0],
+["2026-09-21",8742,285,27,1],
+["2026-09-22",7675,252,127,3],
+["2026-09-23",7457,264,0,0]
 ];
 
 const COMERCIO_DATA = [
@@ -192,7 +199,11 @@ const COMERCIO_DATA = [
 ["2026-09-14",1857,90,0,2],
 ["2026-09-15",637,37,0,2],
 ["2026-09-16",920,29,0,0],
-["2026-09-17",636,51,0,0]
+["2026-09-17",636,51,0,0],
+["2026-09-18",578,63,0,0],
+["2026-09-21",1842,116,1,0],
+["2026-09-22",633,42,1,0],
+["2026-09-23",677,24,4,0]
 ];
 
 const CATS = [
