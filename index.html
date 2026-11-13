@@ -68,13 +68,13 @@ tr:hover td { background: #fafbff; }
 
 <h1>Métricas Bank Transfer Pago Nube</h1>
 <p style="font-size:13px;font-weight:700;color:#4361ee;margin-bottom:4px;letter-spacing:.3px">Bind</p>
-<p class="subtitle">Fuente: Conciliaciones BT (archivos mensuales ago–nov) · pestaña BIND · 1/8–4/11 · 845.168 transacciones</p>
+<p class="subtitle">Fuente: Conciliaciones BT (archivos mensuales ago–nov) · pestaña BIND · 1/8–11/11 · 921.001 transacciones</p>
 
 <div class="toolbar">
 <label>Desde</label>
 <input type="date" id="dateFrom" value="2026-08-01">
 <label>Hasta</label>
-<input type="date" id="dateTo" value="2026-11-04">
+<input type="date" id="dateTo" value="2026-11-12">
 <button class="btn" onclick="render()">Aplicar</button>
 <button class="btn-sm" onclick="setRange('all')">Todo (ago–nov)</button>
 <button class="btn-sm" onclick="setRange('08')">Agosto</button>
@@ -89,7 +89,7 @@ tr:hover td { background: #fafbff; }
 <div style="border-top:2px solid #e2e8f0;margin:32px 0 20px"></div>
 
 <p style="font-size:13px;font-weight:700;color:#4361ee;margin-bottom:4px;letter-spacing:.3px">Comercio</p>
-<p class="subtitle">Fuente: Conciliaciones BT (archivos mensuales ago–nov) · pestaña Comercio · 21/8–4/11 · 44.121 transacciones</p>
+<p class="subtitle">Fuente: Conciliaciones BT (archivos mensuales ago–nov) · pestaña Comercio · 21/8–12/11 · 52.292 transacciones</p>
 <div id="panel-comercio"></div>
 
 <script>
@@ -190,7 +190,14 @@ const BIND_DATA = [
 ["2026-11-01",11085,260,3,0],
 ["2026-11-02",21450,598,4,3],
 ["2026-11-03",20141,572,2,1],
-["2026-11-04",21513,668,2,3]
+["2026-11-04",21513,668,2,3],
+["2026-11-05",15088,446,1,2],
+["2026-11-06",12574,413,2,0],
+["2026-11-07",9606,304,4,1],
+["2026-11-08",9254,269,1,0],
+["2026-11-09",8884,289,5,0],
+["2026-11-10",9161,326,0,1],
+["2026-11-11",8886,299,17,0]
 ];
 
 const COMERCIO_DATA = [
@@ -246,7 +253,10 @@ const COMERCIO_DATA = [
 ["2026-10-30",482,16,0,0],
 ["2026-11-02",5150,162,1,1],
 ["2026-11-03",1914,63,1,0],
-["2026-11-04",1035,23,0,0]
+["2026-11-04",1035,23,0,0],
+["2026-11-05",1999,59,21,4],
+["2026-11-11",5204,168,42,3],
+["2026-11-12",656,14,1,0]
 ];
 
 const CATS = [
@@ -261,7 +271,7 @@ function pct(n, t) { return t ? (n/t*100).toFixed(2) : '0.00'; }
 function fmtDate(s) { const p=s.split('-'); return `${p[2]}/${p[1]}`; }
 
 function setRange(r) {
-const lastDate = BIND_DATA[BIND_DATA.length-1][0];
+const lastDate = [BIND_DATA[BIND_DATA.length-1][0], COMERCIO_DATA[COMERCIO_DATA.length-1][0]].sort().pop();
 const ends = {'08':'2026-08-31','09':'2026-09-30','10':'2026-10-31','11':lastDate};
 let from='2026-08-01', to=lastDate;
 if (ends[r]) { from = `2026-${r}-01`; to = ends[r] > lastDate ? lastDate : ends[r]; }
