@@ -68,13 +68,13 @@ tr:hover td { background: #fafbff; }
 
 <h1>Métricas Bank Transfer Pago Nube</h1>
 <p style="font-size:13px;font-weight:700;color:#4361ee;margin-bottom:4px;letter-spacing:.3px">Bind</p>
-<p class="subtitle">Fuente: Conciliaciones BT (archivos mensuales ago–nov) · pestaña BIND · 1/8–11/11 · 921.001 transacciones</p>
+<p class="subtitle">Fuente: Conciliaciones BT (archivos mensuales ago–nov) · pestaña BIND · 1/8–19/11 · 989.573 transacciones</p>
 
 <div class="toolbar">
 <label>Desde</label>
 <input type="date" id="dateFrom" value="2026-08-01">
 <label>Hasta</label>
-<input type="date" id="dateTo" value="2026-11-12">
+<input type="date" id="dateTo" value="2026-11-20">
 <button class="btn" onclick="render()">Aplicar</button>
 <button class="btn-sm" onclick="setRange('all')">Todo (ago–nov)</button>
 <button class="btn-sm" onclick="setRange('08')">Agosto</button>
@@ -89,7 +89,7 @@ tr:hover td { background: #fafbff; }
 <div style="border-top:2px solid #e2e8f0;margin:32px 0 20px"></div>
 
 <p style="font-size:13px;font-weight:700;color:#4361ee;margin-bottom:4px;letter-spacing:.3px">Comercio</p>
-<p class="subtitle">Fuente: Conciliaciones BT (archivos mensuales ago–nov) · pestaña Comercio · 21/8–12/11 · 52.292 transacciones</p>
+<p class="subtitle">Fuente: Conciliaciones BT (archivos mensuales ago–nov) · pestaña Comercio · 21/8–20/11 · 58.121 transacciones</p>
 <div id="panel-comercio"></div>
 
 <script>
@@ -197,7 +197,15 @@ const BIND_DATA = [
 ["2026-11-08",9254,269,1,0],
 ["2026-11-09",8884,289,5,0],
 ["2026-11-10",9161,326,0,1],
-["2026-11-11",8886,299,17,0]
+["2026-11-11",8886,299,17,0],
+["2026-11-12",8612,263,1,0],
+["2026-11-13",8282,284,1,0],
+["2026-11-14",6542,188,0,0],
+["2026-11-15",6953,212,0,2],
+["2026-11-16",9673,350,8,1],
+["2026-11-17",9142,289,4,37],
+["2026-11-18",8827,111,14,139],
+["2026-11-19",8362,75,15,185]
 ];
 
 const COMERCIO_DATA = [
@@ -256,7 +264,13 @@ const COMERCIO_DATA = [
 ["2026-11-04",1035,23,0,0],
 ["2026-11-05",1999,59,21,4],
 ["2026-11-11",5204,168,42,3],
-["2026-11-12",656,14,1,0]
+["2026-11-12",656,14,1,0],
+["2026-11-13",658,22,0,0],
+["2026-11-16",2210,43,11,0],
+["2026-11-17",840,16,0,0],
+["2026-11-18",796,25,0,0],
+["2026-11-19",643,23,0,0],
+["2026-11-20",525,17,0,0]
 ];
 
 const CATS = [
